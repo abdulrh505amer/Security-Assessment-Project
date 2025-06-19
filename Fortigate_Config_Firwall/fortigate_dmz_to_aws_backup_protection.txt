@@ -1,0 +1,31 @@
+
+config firewall address
+edit "AWS-Cloud"
+set subnet <aws-public-ip> 255.255.255.255
+next
+end
+
+config firewall service custom
+edit "SCP"
+set tcp-portrange 22
+next
+end
+
+config firewall policy
+edit 50
+set name "Allow-SCP-to-AWS"
+set srcintf "port4"
+set dstintf "port2"
+set srcaddr "all"
+set dstaddr "AWS-Cloud"
+set action accept
+set schedule "always"
+set service "SCP"
+set logtraffic all
+next
+end
+
+config log setting
+set status enable
+set logdevice memory
+end
